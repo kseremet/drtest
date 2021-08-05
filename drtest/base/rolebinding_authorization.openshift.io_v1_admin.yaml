@@ -1,0 +1,13 @@
+apiVersion: authorization.openshift.io/v1
+groupNames: null
+kind: RoleBinding
+metadata:
+  name: admin
+  namespace: drtest
+roleRef:
+  name: admin
+subjects:
+- kind: SystemUser
+  name: system:admin
+userNames:
+- system:admin

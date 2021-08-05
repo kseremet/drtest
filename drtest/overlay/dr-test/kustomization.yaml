@@ -1,0 +1,22 @@
+bases:
+- ../../base
+
+namespace: drtest-test
+
+patchesStrategicMerge:
+- persistentvolumeclaim_v1_postgresql.yaml
+- persistentvolume_v1_pvc-8c1092b7-974c-4b7c-bbef-c6a116e0397a.yaml
+- deploymentconfig_apps.openshift.io_v1_postgresql.yaml
+- deploymentconfig_apps.openshift.io_v1_rails-pgsql-persistent.yaml
+
+patchesJson6902:
+            
+- target:
+    version: v1
+    kind: PersistentVolume
+    name: pvc-8c1092b7-974c-4b7c-bbef-c6a116e0397a
+  patch: |-
+    - op: replace
+      path: /metadata/name
+      value: pvc-52d99d5f-d5eb-5435-a14d-870a91adaa4d
+              

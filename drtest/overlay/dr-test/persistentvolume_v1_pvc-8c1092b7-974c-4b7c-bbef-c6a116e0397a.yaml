@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  annotations:
+    dr-policy/original-imagename: csi-vol-297260ca-e8d5-11eb-b288-0a580a810056
+    dr-policy/original-name: pvc-8c1092b7-974c-4b7c-bbef-c6a116e0397a
+    dr-policy/original-volume_handle: 0001-0011-openshift-storage-0000000000000001-297260ca-e8d5-11eb-b288-0a580a810056
+  name: pvc-8c1092b7-974c-4b7c-bbef-c6a116e0397a
+spec:
+  claimRef:
+    namespace: drtest-test
+  csi:
+    volumeAttributes:
+      imageName: csi-vol-e80d9e5d-266b-57f8-b7ec-51fb8616b752
+    volumeHandle: 0001-0011-openshift-storage-0000000000000001-e80d9e5d-266b-57f8-b7ec-51fb8616b752

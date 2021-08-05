@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  annotations:
+    dr-policy/original-volumename: pvc-8c1092b7-974c-4b7c-bbef-c6a116e0397a
+  name: postgresql
+  namespace: drtest
+spec:
+  volumeName: pvc-52d99d5f-d5eb-5435-a14d-870a91adaa4d

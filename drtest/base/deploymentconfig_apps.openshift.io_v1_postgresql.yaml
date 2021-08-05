@@ -1,0 +1,106 @@
+apiVersion: apps.openshift.io/v1
+kind: DeploymentConfig
+metadata:
+  annotations:
+    description: Defines how to deploy the database
+    openshift.io/generated-by: OpenShiftNewApp
+    template.alpha.openshift.io/wait-for-ready: 'true'
+  generation: 2
+  labels:
+    app: rails-pgsql-persistent
+    template: rails-pgsql-persistent
+  name: postgresql
+  namespace: drtest
+spec:
+  replicas: 1
+  revisionHistoryLimit: 10
+  selector:
+    name: postgresql
+  strategy:
+    activeDeadlineSeconds: 21600
+    recreateParams:
+      timeoutSeconds: 600
+    resources: {}
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        openshift.io/generated-by: OpenShiftNewApp
+      creationTimestamp: null
+      labels:
+        name: postgresql
+      name: postgresql
+    spec:
+      containers:
+      - env:
+        - name: POSTGRESQL_USER
+          valueFrom:
+            secretKeyRef:
+              key: database-user
+              name: rails-pgsql-persistent
+        - name: POSTGRESQL_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              key: database-password
+              name: rails-pgsql-persistent
+        - name: POSTGRESQL_DATABASE
+          value: root
+        - name: POSTGRESQL_MAX_CONNECTIONS
+          value: '100'
+        - name: POSTGRESQL_SHARED_BUFFERS
+          value: 12MB
+        image: image-registry.openshift-image-registry.svc:5000/openshift/postgresql@sha256:68a07866e423f506c91dc610276bbc7aad3ac1ec3f5c2a45cefea81b0cf4af72
+        imagePullPolicy: IfNotPresent
+        livenessProbe:
+          exec:
+            command:
+            - /usr/libexec/check-container
+            - --live
+          failureThreshold: 3
+          initialDelaySeconds: 120
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 10
+        name: postgresql
+        ports:
+        - containerPort: 5432
+          protocol: TCP
+        readinessProbe:
+          exec:
+            command:
+            - /usr/libexec/check-container
+          failureThreshold: 3
+          initialDelaySeconds: 5
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 1
+        resources:
+          limits:
+            memory: 512Mi
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        volumeMounts:
+        - mountPath: /var/lib/pgsql/data
+          name: postgresql-data
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+      volumes:
+      - name: postgresql-data
+        persistentVolumeClaim:
+          claimName: postgresql
+  test: false
+  triggers:
+  - imageChangeParams:
+      automatic: true
+      containerNames:
+      - postgresql
+      from:
+        kind: ImageStreamTag
+        name: postgresql:12-el8
+        namespace: openshift
+      lastTriggeredImage: image-registry.openshift-image-registry.svc:5000/openshift/postgresql@sha256:68a07866e423f506c91dc610276bbc7aad3ac1ec3f5c2a45cefea81b0cf4af72
+    type: ImageChange
+  - type: ConfigChange

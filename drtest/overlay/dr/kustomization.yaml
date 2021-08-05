@@ -1,0 +1,6 @@
+bases:
+- ../../base
+
+patchesStrategicMerge:
+- deploymentconfig_apps.openshift.io_v1_postgresql.yaml
+- deploymentconfig_apps.openshift.io_v1_rails-pgsql-persistent.yaml

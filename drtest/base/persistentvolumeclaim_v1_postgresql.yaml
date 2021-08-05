@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  annotations:
+    openshift.io/generated-by: OpenShiftNewApp
+    volume.beta.kubernetes.io/storage-provisioner: openshift-storage.rbd.csi.ceph.com
+  finalizers:
+  - kubernetes.io/pvc-protection
+  labels:
+    app: rails-pgsql-persistent
+    template: rails-pgsql-persistent
+  name: postgresql
+  namespace: drtest
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+  storageClassName: ocs-storagecluster-ceph-rbd
+  volumeMode: Filesystem
+  volumeName: pvc-8c1092b7-974c-4b7c-bbef-c6a116e0397a

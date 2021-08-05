@@ -1,0 +1,40 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  annotations:
+    pv.kubernetes.io/provisioned-by: openshift-storage.rbd.csi.ceph.com
+  finalizers:
+  - kubernetes.io/pv-protection
+  name: pvc-8c1092b7-974c-4b7c-bbef-c6a116e0397a
+spec:
+  accessModes:
+  - ReadWriteOnce
+  capacity:
+    storage: 1Gi
+  claimRef:
+    apiVersion: v1
+    kind: PersistentVolumeClaim
+    name: postgresql
+    namespace: drtest
+  csi:
+    controllerExpandSecretRef:
+      name: rook-csi-rbd-provisioner
+      namespace: openshift-storage
+    driver: openshift-storage.rbd.csi.ceph.com
+    fsType: ext4
+    nodeStageSecretRef:
+      name: rook-csi-rbd-node
+      namespace: openshift-storage
+    volumeAttributes:
+      clusterID: openshift-storage
+      imageFeatures: layering
+      imageFormat: '2'
+      imageName: csi-vol-297260ca-e8d5-11eb-b288-0a580a810056
+      journalPool: ocs-storagecluster-cephblockpool
+      pool: ocs-storagecluster-cephblockpool
+      radosNamespace: ''
+      storage.kubernetes.io/csiProvisionerIdentity: 1626556708956-8081-openshift-storage.rbd.csi.ceph.com
+    volumeHandle: 0001-0011-openshift-storage-0000000000000001-297260ca-e8d5-11eb-b288-0a580a810056
+  persistentVolumeReclaimPolicy: Delete
+  storageClassName: ocs-storagecluster-ceph-rbd
+  volumeMode: Filesystem

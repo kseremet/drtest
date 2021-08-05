@@ -1,0 +1,14 @@
+apiVersion: authorization.openshift.io/v1
+groupNames: null
+kind: RoleBinding
+metadata:
+  name: pipelines-scc-rolebinding
+  namespace: drtest
+roleRef:
+  name: pipelines-scc-clusterrole
+subjects:
+- kind: ServiceAccount
+  name: pipeline
+  namespace: drtest
+userNames:
+- system:serviceaccount:drtest:pipeline

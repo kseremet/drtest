@@ -1,0 +1,46 @@
+apiVersion: build.openshift.io/v1
+kind: BuildConfig
+metadata:
+  annotations:
+    description: Defines how to build the application
+    openshift.io/generated-by: OpenShiftNewApp
+    template.alpha.openshift.io/wait-for-ready: 'true'
+  generation: 2
+  labels:
+    app: rails-pgsql-persistent
+    template: rails-pgsql-persistent
+  name: rails-pgsql-persistent
+  namespace: drtest
+spec:
+  failedBuildsHistoryLimit: 5
+  nodeSelector: null
+  output:
+    to:
+      kind: ImageStreamTag
+      name: rails-pgsql-persistent:latest
+  postCommit:
+    script: bundle exec rake test
+  resources: {}
+  runPolicy: Serial
+  source:
+    git:
+      uri: https://github.com/sclorg/rails-ex.git
+    type: Git
+  strategy:
+    sourceStrategy:
+      env:
+      - name: RUBYGEM_MIRROR
+      from:
+        kind: ImageStreamTag
+        name: ruby:2.6-ubi8
+        namespace: openshift
+    type: Source
+  successfulBuildsHistoryLimit: 5
+  triggers:
+  - imageChange:
+      lastTriggeredImageID: image-registry.openshift-image-registry.svc:5000/openshift/ruby@sha256:bf88f75ceaec757da264a5d7f416af247bfb7555a7aec3c4a0463a9127d7e626
+    type: ImageChange
+  - type: ConfigChange
+  - github:
+      secret: bmdREq55b5QPwLFWOVdvyf30Tk4Kqi6QYYgF0car
+    type: GitHub

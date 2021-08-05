@@ -1,0 +1,14 @@
+apiVersion: authorization.openshift.io/v1
+groupNames: null
+kind: RoleBinding
+metadata:
+  name: edit
+  namespace: drtest
+roleRef:
+  name: edit
+subjects:
+- kind: ServiceAccount
+  name: pipeline
+  namespace: drtest
+userNames:
+- system:serviceaccount:drtest:pipeline
