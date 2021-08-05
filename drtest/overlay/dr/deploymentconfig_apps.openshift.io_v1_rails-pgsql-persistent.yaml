@@ -2,7 +2,7 @@ apiVersion: apps.openshift.io/v1
 kind: DeploymentConfig
 metadata:
   annotations:
-    dr-policy/original-replicas: '1'
+    dr-policy/original-replicas: '2'
   name: rails-pgsql-persistent
   namespace: drtest
 spec:

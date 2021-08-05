@@ -5,14 +5,14 @@ metadata:
     description: Defines how to deploy the application server
     openshift.io/generated-by: OpenShiftNewApp
     template.alpha.openshift.io/wait-for-ready: 'true'
-  generation: 2
+  generation: 3
   labels:
     app: rails-pgsql-persistent
     template: rails-pgsql-persistent
   name: rails-pgsql-persistent
   namespace: drtest
 spec:
-  replicas: 1
+  replicas: 2
   revisionHistoryLimit: 10
   selector:
     name: rails-pgsql-persistent
